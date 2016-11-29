@@ -1,48 +1,28 @@
 package core;
 
-public class Frame implements Value {
+public class Frame implements Value, Runnable {
     public static final Symbol type = new Symbol();
+    public static final int RETURN_OFFSET = 1 << 30;
 
     public final World world;
     public final Value[] locals;
     public final Value[] nonlocals;
-    private Block block;
+    public final Statement[] statements;
+    public Value returnValue;
 
-    public Frame(World world, Value[] locals, Value[] nonlocals) {
+    public Frame(World world, Value[] locals, Value[] nonlocals,
+            Statement[] statements, Value returnValue) {
         this.world = world;
         this.locals = locals;
         this.nonlocals = nonlocals;
+        this.statements = statements;
+        this.returnValue = returnValue;
     }
 
-    public Frame(World world, int size, Value... nonlocals) {
-        this(world, new Value[size], nonlocals);
-    }
-
-    public Frame(World world) {
-        this(world, null, null);
-    }
-
-    public Frame set(Value... values) {
-        return set(0, values);
-    }
-
-    public Frame set(int offset, Value... values) {
-        for(Value value : values)
-            locals[offset++] = value;
-
-        return this;
-    }
-
-    public Block block() {
-        return block;
-    }
-
-    public Block enterBlock() {
-        return block = new Block(block);
-    }
-
-    public void leaveBlock() {
-        block = block.parent;
+    public void run() {
+        int i = 0;
+        do i += statements[i].eval(this);
+        while(i < statements.length);
     }
 
     public Symbol type() {

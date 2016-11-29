@@ -1,11 +1,11 @@
 package core;
 
-public class JumpINode implements INode {
+public class Jump implements Statement {
     public static final Symbol type = new Symbol();
 
     private int offset;
 
-    public JumpINode(int offset) {
+    public Jump(int offset) {
         this.offset = offset;
     }
 
@@ -13,8 +13,7 @@ public class JumpINode implements INode {
         return type;
     }
 
-    public Value eval(Frame frame) {
-        frame.block().jumpBy(offset);
-        return null;
+    public int eval(Frame frame) {
+        return offset;
     }
 }

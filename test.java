@@ -1,5 +1,5 @@
 import core.*;
-import java.util.*;
+import static core.Symbols.*;
 
 class test {
     public static void main(String[] args) throws Exception {
@@ -11,27 +11,22 @@ class test {
         Callable fadd64 = (w, a) -> new DoubleValue(
             ((DoubleValue)a[0]).value + ((DoubleValue)a[1]).value);
 
-        Value three = new DoubleValue(3.0);
+        Expression one = new Constant(new DoubleValue(1.0));
+        Expression two = new Constant(new DoubleValue(2.0));
+        Expression three = new Constant(new DoubleValue(3.0));
 
-        INode body = new CallINode(say,
-            new CallINode(fadd64,
-                new NonLocalINode(0),
-                new ConstINode(new DoubleValue(0.14))
-            )
+        Function fn = new Function(0, DoubleValue.type).body(
+            new Return(new Call(fadd64, new GetNonLocal(0), three))
         );
 
-        ProtoFunction proto = new ProtoFunction(body, 0);
-        Function fn = proto.bind(three);
-        fn.call(null);
+        System.out.println(fn.bind(new DoubleValue(0.14)).call(null).gist());
 
-        new BlockINode(
-            new CallINode((w, a) -> {
-                try { Thread.sleep(1000); }
-                catch(InterruptedException e) {}
-                System.out.print(".");
-                return null;
-            }),
-            new JumpINode(-1)
-        ).eval(new Frame(null));
+        fn = new Function(0).body(
+            new If(new Constant(null), new Return(one)),
+            new If(new Constant(TRUE), new Return(two)),
+            new If(new Constant(TRUE), new Return(three))
+        );
+
+        System.out.println(fn.bind().call(null).gist());
     }
 }

@@ -1,18 +1,12 @@
 package core;
 
-public class CallINode implements INode {
-    public static final Symbol type = new Symbol();
-
+public class Call implements Expression {
     private final Callable callee;
-    private final INode[] args;
+    private final Expression[] args;
 
-    public CallINode(Callable callee, INode... args) {
+    public Call(Callable callee, Expression... args) {
         this.callee = callee;
         this.args = args;
-    }
-
-    public Symbol type() {
-        return type;
     }
 
     public Value eval(Frame frame) {
