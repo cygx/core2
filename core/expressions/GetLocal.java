@@ -11,4 +11,9 @@ public class GetLocal implements Expression {
     public Value eval(Frame frame) {
         return frame.locals[index];
     }
+
+    @Override
+    public String asm(World world) {
+        return "get-local(" + index + ")";
+    }
 }

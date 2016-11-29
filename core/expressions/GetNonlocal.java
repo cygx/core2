@@ -11,4 +11,9 @@ public class GetNonlocal implements Expression {
     public Value eval(Frame frame) {
         return frame.nonlocals[index];
     }
+
+    @Override
+    public String asm(World world) {
+        return "get-nonlocal(" + index + ")";
+    }
 }

@@ -15,4 +15,9 @@ public class BindLocal implements Statement {
         frame.locals[index] = expression.eval(frame);
         return 1;
     }
+
+    @Override
+    public String asm(World world) {
+        return "bind-local " + index + ", " + expression.asm(world);
+    }
 }

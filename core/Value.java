@@ -7,7 +7,12 @@ public interface Value {
         return type() == type;
     }
 
-    default String gist() {
-        return getClass().getSimpleName() + '(' + toString() + ')';
+    default String gist(World world) {
+        return world.typeName(this) + '(' + toString() + ')';
+    }
+
+    default String asm(World world) {
+        throw new RuntimeException(
+            "don't know how to disassemble " + getClass().getSimpleName());
     }
 }

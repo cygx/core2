@@ -11,4 +11,8 @@ public class Constant implements Expression {
     public Value eval(Frame frame) {
         return value;
     }
+
+    public String asm(World world) {
+        return value.asm(world);
+    }
 }

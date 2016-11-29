@@ -25,4 +25,9 @@ public class I64 implements Value {
     public String toString() {
         return Long.toString(value);
     }
+
+    @Override
+    public String asm(World world) {
+        return world.typeName(this) + '<' + toString() + '>';
+    }
 }

@@ -19,6 +19,16 @@ public final class Symbol implements Value, Comparable<Symbol> {
         return String.format("@%x", id);
     }
 
+    @Override
+    public String gist(World world) {
+        return world.name(this);
+    }
+
+    @Override
+    public String asm(World world) {
+        return '$' + world.name(this);
+    }
+
     public int compareTo(Symbol sym) {
         return id - sym.id;
     }

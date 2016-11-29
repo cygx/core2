@@ -14,4 +14,9 @@ public class Unless implements Statement {
         return condition.eval(frame) != Symbols.TRUE
             ? statement.eval(frame) : 1;
     }
+
+    @Override
+    public String asm(World world) {
+        return "unless " + condition.asm(world) + ":\n  " + statement.asm(world);
+    }
 }

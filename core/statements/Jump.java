@@ -17,4 +17,9 @@ public class Jump implements Statement {
     public int eval(Frame frame) {
         return offset;
     }
+
+    @Override
+    public String asm(World world) {
+        return "jump " + offset;
+    }
 }

@@ -12,4 +12,8 @@ public class Ret implements Statement {
         frame.returnValue = expression.eval(frame);
         return Frame.RETURN_OFFSET;
     }
+
+    public String asm(World world) {
+        return "ret " + expression.asm(world);
+    }
 }

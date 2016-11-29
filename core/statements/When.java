@@ -15,4 +15,9 @@ public class When implements Statement {
             ? statement.eval(frame)
             : 1;
     }
+
+    @Override
+    public String asm(World world) {
+        return "when " + condition.asm(world) + ":\n  " + statement.asm(world);
+    }
 }

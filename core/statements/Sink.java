@@ -12,4 +12,9 @@ public class Sink implements Statement {
         expression.eval(frame);
         return 1;
     }
+
+    @Override
+    public String asm(World world) {
+        return "sink " + expression.asm(world);
+    }
 }

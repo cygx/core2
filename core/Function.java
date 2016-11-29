@@ -54,4 +54,33 @@ public class Function implements Value {
     public Symbol type() {
         return type;
     }
+
+    public String asm(World world) {
+        StringBuilder b = new StringBuilder();
+        b.append(":function ");
+        b.append(world.typeName(returnType));
+
+        for(Symbol p : parameters) {
+            b.append(" <");
+            b.append(world.typeName(p));
+            b.append('>');
+        }
+
+        if(returnExpression != null) {
+            b.append("\n:returns ");
+            b.append(returnExpression.asm(world));
+        }
+
+        if(frameSize != 0) {
+            b.append("\n:locals ");
+            b.append(frameSize);
+        }
+
+        if(statements != null) for(Statement s : statements) {
+            b.append('\n');
+            b.append(s.asm(world));
+        }
+
+        return b.toString();
+    }
 }

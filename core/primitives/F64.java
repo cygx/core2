@@ -20,4 +20,9 @@ public class F64 implements Value {
     public String toString() {
         return Double.toString(value);
     }
+
+    @Override
+    public String asm(World world) {
+        return world.typeName(this) + '<' + toString() + '>';
+    }
 }

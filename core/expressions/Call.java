@@ -17,4 +17,19 @@ public class Call implements Expression {
 
         return callee.call(frame.world, values);
     }
+
+    @Override
+    public String asm(World world) {
+        StringBuilder b = new StringBuilder(world.name(callee));
+        b.append('(');
+        if(args.length > 0) {
+            b.append(args[0].asm(world));
+            for(int i = 1; i < args.length; ++i) {
+                b.append(", ");
+                b.append(args[i].asm(world));
+            }
+        }
+        b.append(')');
+        return b.toString();
+    }
 }
