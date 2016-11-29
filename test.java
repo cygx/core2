@@ -1,5 +1,6 @@
 import core.*;
 import core.primitives.*;
+import java.io.*;
 import static core.Expressions.*;
 import static core.Statements.*;
 import static core.Symbols.*;
@@ -65,5 +66,22 @@ class test {
 
         fn.bind().call(null);
         System.out.println(fn.asm(world));
+        System.out.println();
+
+        Symbol sym = new Symbol();
+        System.out.println(sym.id);
+
+        ByteArrayOutputStream bs = new ByteArrayOutputStream();
+        ObjectOutputStream os = new ObjectOutputStream(bs);
+        os.writeObject(sym);
+        os.close();
+
+        ObjectInputStream is = new ObjectInputStream(
+            new ByteArrayInputStream(bs.toByteArray()));
+
+        sym = (Symbol)is.readObject();
+        is.close();
+
+        System.out.println(sym.id);
     }
 }

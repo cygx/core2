@@ -1,6 +1,8 @@
 package core;
+import java.io.Serializable;
 
-public interface Value {
+
+public interface Value extends Serializable {
     Symbol type();
 
     default boolean is(Symbol type) {

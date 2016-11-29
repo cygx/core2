@@ -1,10 +1,11 @@
 package core;
+import java.io.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public final class Symbol implements Value, Comparable<Symbol> {
     private static final AtomicInteger nextId = new AtomicInteger();
 
-    public final int id;
+    public final transient int id;
 
     public Symbol() {
         this.id = nextId.getAndIncrement();
@@ -31,5 +32,9 @@ public final class Symbol implements Value, Comparable<Symbol> {
 
     public int compareTo(Symbol sym) {
         return id - sym.id;
+    }
+
+    private Object readResolve() throws ObjectStreamException {
+        return new Symbol();
     }
 }
