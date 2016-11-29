@@ -1,9 +1,10 @@
-package core;
+package core.expressions;
+import core.*;
 
-public class GetNonLocal implements Expression {
+public class GetNonlocal implements Expression {
     public final int index;
 
-    public GetNonLocal(int index) {
+    public GetNonlocal(int index) {
         this.index = index;
     }
 

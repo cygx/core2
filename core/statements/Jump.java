@@ -1,4 +1,5 @@
-package core;
+package core.statements;
+import core.*;
 
 public class Jump implements Statement {
     public static final Symbol type = new Symbol();

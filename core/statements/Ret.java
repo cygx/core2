@@ -1,9 +1,10 @@
-package core;
+package core.statements;
+import core.*;
 
-public class Return implements Statement {
+public class Ret implements Statement {
     private final Expression expression;
 
-    public Return(Expression expression) {
+    public Ret(Expression expression) {
         this.expression = expression;
     }
 

@@ -1,11 +1,12 @@
-package core;
+package core.primitives;
+import core.*;
 
-public class DoubleValue implements Value {
+public class MutableF64 implements Value {
     public static final Symbol type = new Symbol();
 
-    public final double value;
+    public double value;
 
-    public DoubleValue(double value) {
+    public MutableF64(double value) {
         this.value = value;
     }
 

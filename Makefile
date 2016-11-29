@@ -1,7 +1,9 @@
-NAMES := $(patsubst core/%.java,%,$(wildcard core/*.java))
+NAMES := \
+    $(patsubst core/%.java,%,$(wildcard core/*.java)) \
+    $(patsubst core/%.java,%,$(wildcard core/statements/*.java)) \
 
 build:
-	javac -d classes core/*.java
+	javac -d classes core/*.java core/statements/*.java
 
 clean:
 	rm -rf classes/*

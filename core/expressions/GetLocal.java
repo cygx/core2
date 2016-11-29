@@ -1,4 +1,5 @@
-package core;
+package core.expressions;
+import core.*;
 
 public class GetLocal implements Expression {
     public final int index;

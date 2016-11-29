@@ -1,4 +1,5 @@
-package core;
+package core.expressions;
+import core.*;
 
 public class Constant implements Expression {
     public final Value value;
