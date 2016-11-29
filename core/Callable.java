@@ -2,7 +2,10 @@ package core;
 
 @FunctionalInterface
 public interface Callable extends Value {
-    static final Symbol type = new Symbol();
+    Symbol type = new Symbol();
+    static class Dummy {
+        static { Callable.type.resolver(() -> Callable.type); }
+    }
 
     Value call(World world, Value... args);
 

@@ -2,6 +2,7 @@ package core;
 
 public class Closure implements Callable {
     public static final Symbol type = new Symbol();
+    static { type.resolver(() -> type); }
 
     private final Function fn;
     private final Value[] nonlocals;

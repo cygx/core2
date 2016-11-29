@@ -2,7 +2,10 @@ package core;
 
 @FunctionalInterface
 public interface Statement extends Value {
-    final Symbol type = new Symbol();
+    Symbol type = new Symbol();
+    static class Dummy {
+        static { Statement.type.resolver(() -> Statement.type); }
+    }
 
     default Symbol type() {
         return type;

@@ -3,6 +3,8 @@ import core.*;
 
 public class F64 implements Value {
     public static final Symbol type = new Symbol();
+    static { type.resolver(() -> type); }
+
     public static final Callable add =
         (w, a) -> new F64(((F64)a[0]).value + ((F64)a[1]).value);
 

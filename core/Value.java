@@ -1,7 +1,6 @@
 package core;
 import java.io.Serializable;
 
-
 public interface Value extends Serializable {
     Symbol type();
 

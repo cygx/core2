@@ -6,9 +6,10 @@ public final class Symbol implements Value, Comparable<Symbol> {
     private static final AtomicInteger nextId = new AtomicInteger();
 
     public final transient int id;
+    public SymbolResolver resolver;
 
     public Symbol() {
-        this.id = nextId.getAndIncrement();
+        id = nextId.getAndIncrement();
     }
 
     public Symbol type() {
@@ -34,7 +35,11 @@ public final class Symbol implements Value, Comparable<Symbol> {
         return id - sym.id;
     }
 
+    public void resolver(SymbolResolver resolver) {
+        this.resolver = resolver;
+    }
+
     private Object readResolve() throws ObjectStreamException {
-        return new Symbol();
+        return resolver.resolve();
     }
 }

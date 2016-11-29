@@ -3,17 +3,17 @@ import core.expressions.*;
 import core.primitives.*;
 
 public interface Expressions {
-    static final Expression CONSTANT_FALSE = new Constant(Symbols.FALSE);
-    static final Expression CONSTANT_TRUE = new Constant(Symbols.TRUE);
+    Expression CONSTANT_FALSE = new Constant(Symbols.FALSE);
+    Expression CONSTANT_TRUE = new Constant(Symbols.TRUE);
 
-    static final Expression[] GET_LOCAL = {
+    Expression[] GET_LOCAL = {
         new GetLocal(0),
         new GetLocal(1),
         new GetLocal(2),
         new GetLocal(3),
     };
 
-    static final Expression[] GET_NONLOCAL = {
+    Expression[] GET_NONLOCAL = {
         new GetNonlocal(0),
         new GetNonlocal(1),
         new GetNonlocal(2),

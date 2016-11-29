@@ -3,6 +3,7 @@ import java.util.*;
 
 public class World implements Value {
     public static final Symbol type = new Symbol();
+    static { type.resolver(() -> type); }
 
     private final Map<Object, Object> registry = new HashMap<>();
 

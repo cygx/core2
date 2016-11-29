@@ -3,6 +3,7 @@ import core.*;
 
 public class MutableI64 implements Value {
     public static final Symbol type = new Symbol();
+    static { type.resolver(() -> type); }
 
     public static final Callable preinc = (w, a) -> {
         MutableI64 arg = (MutableI64)a[0];

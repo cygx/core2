@@ -2,6 +2,8 @@ package core;
 
 public class Frame implements Value, Runnable {
     public static final Symbol type = new Symbol();
+    static { type.resolver(() -> type); }
+
     public static final int RETURN_OFFSET = 1 << 30;
 
     public final World world;

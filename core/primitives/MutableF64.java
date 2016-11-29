@@ -3,6 +3,7 @@ import core.*;
 
 public class MutableF64 implements Value {
     public static final Symbol type = new Symbol();
+    static { type.resolver(() -> type); }
 
     public double value;
 

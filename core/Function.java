@@ -1,7 +1,9 @@
 package core;
 
 public class Function implements Value {
-    public final Symbol type = new Symbol();
+    public static final Symbol type = new Symbol();
+    static { type.resolver(() -> type); }
+
     private final Symbol[] NO_PARAMETERS = new Symbol[0];
 
     final int frameSize;

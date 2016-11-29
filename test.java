@@ -6,6 +6,8 @@ import static core.Statements.*;
 import static core.Symbols.*;
 
 class test {
+    static Symbol sym;
+
     public static void main(String[] args) throws Exception {
         World world = new World();
         world.register("World", World.type);
@@ -68,7 +70,12 @@ class test {
         System.out.println(fn.asm(world));
         System.out.println();
 
-        Symbol sym = new Symbol();
+        sym = new Symbol();
+        SymbolResolver res = () -> {
+            System.out.println("resolving id=" + sym.id);
+            return sym;
+        };
+        sym.resolver(res);
         System.out.println(sym.id);
 
         ByteArrayOutputStream bs = new ByteArrayOutputStream();
@@ -79,9 +86,9 @@ class test {
         ObjectInputStream is = new ObjectInputStream(
             new ByteArrayInputStream(bs.toByteArray()));
 
-        sym = (Symbol)is.readObject();
+        Symbol sym2 = (Symbol)is.readObject();
         is.close();
 
-        System.out.println(sym.id);
+        System.out.println(sym == sym2);
     }
 }
