@@ -11,12 +11,11 @@ public class Frame implements Value, Runnable {
     public Value returnValue;
 
     public Frame(World world, Value[] locals, Value[] nonlocals,
-            Statement[] statements, Value returnValue) {
+            Statement[] statements) {
         this.world = world;
         this.locals = locals;
         this.nonlocals = nonlocals;
         this.statements = statements;
-        this.returnValue = returnValue;
     }
 
     public void run() {

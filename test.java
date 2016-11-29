@@ -25,6 +25,9 @@ class test {
 
         System.out.println(fn.bind().call(null).gist());
 
+        fn = new Function(0).returns(constant(42l));
+        System.out.println(fn.bind().call(null).gist());
+
         fn = new Function(1).body(
             bindLocal(0, call(MutableI64.zero)),
             sink(call(say, call(MutableI64.preinc, getLocal(0)))),

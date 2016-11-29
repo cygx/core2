@@ -16,10 +16,14 @@ public class Closure implements Callable {
         for(int i = 0; i < args.length; ++i)
             locals[i] = args[i];
 
-        Frame frame = new Frame(
-            world, locals, nonlocals, fn.statements, fn.returnValue);
+        Frame frame = new Frame(world, locals, nonlocals, fn.statements);
 
-        frame.run();
+        if(fn.returnExpression != null)
+            frame.returnValue = fn.returnExpression.eval(frame);
+
+        if(fn.statements != null)
+            frame.run();
+
         return frame.returnValue;
     }
 

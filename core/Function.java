@@ -5,13 +5,14 @@ public class Function implements Value {
     private final Symbol[] NO_PARAMETERS = new Symbol[0];
 
     final int frameSize;
-    final Value returnValue;
+    final Symbol returnType;
+    Expression returnExpression;
     Symbol[] parameters;
     Statement[] statements;
 
-    public Function(int frameSize, Value returnValue) {
+    public Function(int frameSize, Symbol returnType) {
         this.frameSize = frameSize;
-        this.returnValue = returnValue;
+        this.returnType = returnType;
         this.parameters = NO_PARAMETERS;
     }
 
@@ -24,13 +25,18 @@ public class Function implements Value {
         return this;
     }
 
+    public Function returns(Expression returnExpression) {
+        this.returnExpression = returnExpression;
+        return this;
+    }
+
     public Function body(Statement... statements) {
         this.statements = statements;
         return this;
     }
 
     public Symbol returnType() {
-        return returnValue.type();
+        return returnType.type();
     }
 
     public int arity() {
