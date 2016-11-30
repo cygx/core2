@@ -5,7 +5,10 @@ NAMES := \
     $(patsubst core/%.java,%,$(wildcard core/statements/*.java)) \
 
 build:
-	javac -d classes core/*.java core/statements/*.java
+	javac -d classes core/*.java \
+		core/expressions/*.java \
+		core/primitives/*.java \
+		core/statements/*.java
 
 clean:
 	rm -rf classes/*
