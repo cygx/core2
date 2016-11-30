@@ -1,5 +1,7 @@
 NAMES := \
     $(patsubst core/%.java,%,$(wildcard core/*.java)) \
+    $(patsubst core/%.java,%,$(wildcard core/expressions/*.java)) \
+    $(patsubst core/%.java,%,$(wildcard core/primitives/*.java)) \
     $(patsubst core/%.java,%,$(wildcard core/statements/*.java)) \
 
 build:

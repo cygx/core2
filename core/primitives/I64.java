@@ -1,37 +1,40 @@
 package core.primitives;
 import core.*;
 import static core.Symbols.*;
-import java.io.Serializable;
 
-public class I64 implements Value {
-    public static final Symbol type = new Symbol();
-    static {
-        type.stooge = new Serializable() {
-            private Object readResolve() {
-                return type;
-            }
-        };
-    }
-
+public abstract class I64 implements Value {
     public static final Callable add = (w, a) ->
-        new I64(((I64)a[0]).value + ((I64)a[1]).value);
+        new ImmI64(((I64)a[0]).value() + ((I64)a[1]).value());
 
-    public static final Callable lessThan = (w, a) ->
-        ((I64)a[0]).value < ((I64)a[1]).value ? TRUE : FALSE;
+    public static final Callable sub = (w, a) ->
+        new ImmI64(((I64)a[0]).value() - ((I64)a[1]).value());
 
-    public final long value;
+    public static final Callable mul = (w, a) ->
+        new ImmI64(((I64)a[0]).value() * ((I64)a[1]).value());
 
-    public I64(long value) {
-        this.value = value;
-    }
+    public static final Callable div = (w, a) ->
+        new ImmI64(((I64)a[0]).value() / ((I64)a[1]).value());
 
-    public Symbol type() {
-        return type;
-    }
+    public static final Callable mod = (w, a) ->
+        new ImmI64(((I64)a[0]).value() % ((I64)a[1]).value());
+
+    public static final Callable lt = (w, a) ->
+        ((I64)a[0]).value() < ((I64)a[1]).value() ? TRUE : FALSE;
+
+    public static final Callable le = (w, a) ->
+        ((I64)a[0]).value() <= ((I64)a[1]).value() ? TRUE : FALSE;
+
+    public static final Callable gt = (w, a) ->
+        ((I64)a[0]).value() > ((I64)a[1]).value() ? TRUE : FALSE;
+
+    public static final Callable ge = (w, a) ->
+        ((I64)a[0]).value() >= ((I64)a[1]).value() ? TRUE : FALSE;
+
+    public abstract long value();
 
     @Override
     public String toString() {
-        return Long.toString(value);
+        return Long.toString(value());
     }
 
     @Override

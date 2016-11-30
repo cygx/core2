@@ -2,32 +2,15 @@ package core.primitives;
 import core.*;
 import java.io.Serializable;
 
-public class F64 implements Value {
-    public static final Symbol type = new Symbol();
-    static {
-        type.stooge = new Serializable() {
-            private Object readResolve() {
-                return type;
-            }
-        };
-    }
-
+public abstract class F64 implements Value {
     public static final Callable add =
-        (w, a) -> new F64(((F64)a[0]).value + ((F64)a[1]).value);
+        (w, a) -> new ImmF64(((F64)a[0]).value() + ((F64)a[1]).value());
 
-    public final double value;
-
-    public F64(double value) {
-        this.value = value;
-    }
-
-    public Symbol type() {
-        return type;
-    }
+    public abstract double value();
 
     @Override
     public String toString() {
-        return Double.toString(value);
+        return Double.toString(value());
     }
 
     @Override

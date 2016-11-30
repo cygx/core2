@@ -29,11 +29,11 @@ public interface Expressions {
     }
 
     static Expression constant(double v) {
-        return new Constant(new F64(v));
+        return new Constant(new ImmF64(v));
     }
 
     static Expression constant(long v) {
-        return new Constant(new I64(v));
+        return new Constant(new ImmI64(v));
     }
 
     static Expression getLocal(int i) {

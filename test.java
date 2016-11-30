@@ -12,15 +12,15 @@ class test {
         world.register("void", VOID);
         world.register("false", FALSE);
         world.register("true", TRUE);
-        world.register("f64", F64.type);
-        world.register("i64", I64.type);
-        world.register("@f64", MutableF64.type);
-        world.register("@i64", MutableI64.type);
-        world.register("i64.lt", I64.lessThan);
+        world.register("f64", ImmF64.type);
+        world.register("i64", ImmI64.type);
+        world.register("@f64", MutF64.type);
+        world.register("@i64", MutI64.type);
+        world.register("i64.lt", ImmI64.lt);
         world.register("f64.add", F64.add);
-        world.register("@i64.imm", MutableI64.immutable);
-        world.register("@i64.preinc", MutableI64.preinc);
-        world.register("@i64.zero", MutableI64.zero);
+        world.register("@i64.imm", MutI64.imm);
+        world.register("@i64.preinc", MutI64.preinc);
+        world.register("@i64.zero", MutI64.zero);
         System.out.println(world.gist(world));
         System.out.println();
 
@@ -31,11 +31,11 @@ class test {
 
         world.register("say", say);
 
-        Function fn = new Function(0, F64.type).body(
+        Function fn = new Function(0, ImmF64.type).body(
             ret(call(F64.add, getNonlocal(0), constant(3.0)))
         );
 
-        System.out.println(fn.bind(new F64(0.14)).call(null).gist(world));
+        System.out.println(fn.bind(new ImmF64(0.14)).call(null).gist(world));
         System.out.println(fn.asm(world));
         System.out.println();
 
@@ -49,18 +49,15 @@ class test {
         System.out.println(fn.asm(world));
         System.out.println();
 
-        fn = new Function(0, I64.type).returns(constant(42l));
+        fn = new Function(0, ImmI64.type).returns(constant(42l));
         System.out.println(fn.bind().call(null).gist(world));
         System.out.println(fn.asm(world));
         System.out.println();
 
         fn = new Function(1).body(
-            bindLocal(0, call(MutableI64.zero)),
-            sink(call(say, call(MutableI64.preinc, getLocal(0)))),
-            when(
-                call(I64.lessThan,
-                    call(MutableI64.immutable, getLocal(0)),
-                    constant(5l)),
+            bindLocal(0, call(MutI64.zero)),
+            sink(call(say, call(MutI64.preinc, getLocal(0)))),
+            when(call(I64.lt, call(MutI64.imm, getLocal(0)), constant(5l)),
                 jump(-1))
         );
 
@@ -70,7 +67,7 @@ class test {
 
         ByteArrayOutputStream bs = new ByteArrayOutputStream();
         ObjectOutputStream os = new ObjectOutputStream(bs);
-        os.writeObject(I64.type);
+        os.writeObject(ImmI64.type);
         os.close();
 
         ObjectInputStream is = new ObjectInputStream(
@@ -79,6 +76,6 @@ class test {
         Symbol sym = (Symbol)is.readObject();
         is.close();
 
-        System.out.println(I64.type == sym);
+        System.out.println(ImmI64.type == sym);
     }
 }

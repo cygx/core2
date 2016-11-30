@@ -2,7 +2,7 @@ package core.primitives;
 import core.*;
 import java.io.Serializable;
 
-public class MutableI64 implements Value {
+public class MutI64 extends I64 {
     public static final Symbol type = new Symbol();
     static {
         type.stooge = new Serializable() {
@@ -13,39 +13,38 @@ public class MutableI64 implements Value {
     }
 
     public static final Callable preinc = (w, a) -> {
-        MutableI64 arg = (MutableI64)a[0];
+        MutI64 arg = (MutI64)a[0];
         arg.value += 1;
         return arg;
     };
 
     public static final Callable postinc = (w, a) -> {
-        MutableI64 arg = (MutableI64)a[0];
-        I64 pre = new I64(arg.value);
+        MutI64 arg = (MutI64)a[0];
+        ImmI64 pre = new ImmI64(arg.value);
         arg.value += 1;
         return pre;
     };
 
     public static final Callable zero = (w, a) -> {
-        return new MutableI64(0);
+        return new MutI64(0);
     };
 
-    public static final Callable immutable = (w, a) -> {
-        MutableI64 arg = (MutableI64)a[0];
-        return new I64(arg.value);
+    public static final Callable imm = (w, a) -> {
+        MutI64 arg = (MutI64)a[0];
+        return new ImmI64(arg.value);
     };
 
     public long value;
 
-    public MutableI64(long value) {
+    public MutI64(long value) {
         this.value = value;
+    }
+
+    public long value() {
+        return value;
     }
 
     public Symbol type() {
         return type;
-    }
-
-    @Override
-    public String toString() {
-        return Long.toString(value);
     }
 }
