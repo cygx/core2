@@ -6,7 +6,7 @@ public interface Symbols {
     Symbol TRUE = new Symbol();
     Symbol FALSE = new Symbol();
 
-    static class Dummy {
+    static class symbols {
         static {
             VOID.stooge = new Serializable() {
                 private Object readResolve() {
@@ -25,6 +25,12 @@ public interface Symbols {
                     return FALSE;
                 }
             };
+        }
+
+        public static void registerWith(World world) {
+            world.register("void", VOID);
+            world.register("true", TRUE);
+            world.register("false", FALSE);
         }
     }
 }

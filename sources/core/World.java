@@ -13,6 +13,7 @@ public class World implements Value {
     }
 
     private final Map<Object, Object> registry = new HashMap<>();
+    private transient Map<String, Symbol> deserializationStage;
 
     public World() {}
 
@@ -26,6 +27,10 @@ public class World implements Value {
 
     public Callable getCallable(String name) {
         return (Callable)registry.get(name);
+    }
+
+    public Symbol getSymbol(String name) {
+        return (Symbol)registry.get(name);
     }
 
     public String getTypeName(Value value) {
@@ -50,14 +55,32 @@ public class World implements Value {
         registry.put(value, name);
     }
 
-    public Symbol createSymbol(String name) {
-        Symbol symbol = new Symbol(new Serializable() {
+    private Serializable stooge(String name) {
+        return new Serializable() {
             private Object readResolve() {
-                Symbol s = (Symbol)registry.get(name);
-                return s != null ? s : createSymbol(name);
+                Symbol symbol = null;
+                if(deserializationStage == null)
+                    deserializationStage = new HashMap<>();
+                else symbol = deserializationStage.get(name);
+
+                if(symbol == null) {
+                    symbol = new Symbol(stooge(name));
+                    deserializationStage.put(name, symbol);
+                }
+
+                return symbol;
             }
-        });
+        };
+    }
+
+    public Symbol createSymbol(String name) {
+        Symbol symbol = new Symbol(stooge(name));
         register(name, symbol);
         return symbol;
+    }
+
+    private Object readResolve() {
+        deserializationStage = null;
+        return this;
     }
 }
