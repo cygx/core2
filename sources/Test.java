@@ -3,6 +3,12 @@ import java.util.*;
 import java.lang.reflect.*;
 
 public interface Test extends Runnable {
+    static class PreconditionException extends RuntimeException {
+        public PreconditionException(String msg) {
+            super(msg);
+        }
+    }
+
     default void is(Object a, Object b)   { assert a == b: a + " != " + b; }
     default void is(int a, int b)         { assert a == b: a + " != " + b; }
     default void is(long a, long b)       { assert a == b: a + " != " + b; }
@@ -22,6 +28,18 @@ public interface Test extends Runnable {
     default void isa(Object o, Class c) {
         assert c.isInstance(o):
             o.getClass().getSimpleName() + " !isa " + c.getSimpleName();
+    }
+
+    default void isnull(Object o) {
+        assert o == null: "notnull " + o.getClass().getSimpleName();
+    }
+
+    default void notnull(Object o) {
+        assert o != null: "isnull";
+    }
+
+    default void require(boolean b, String msg) {
+        if(!b) throw new PreconditionException(msg);
     }
 
     default void run() {
@@ -67,9 +85,14 @@ public interface Test extends Runnable {
             }));
 
             int id = 0;
+            boolean skipping = false;
             for(Method m : methods) {
                 if(!m.getName().startsWith("_")) continue;
                 String ok = "ok " + ++id + " -" + m.getName().replace('_', ' ');
+                if(skipping) {
+                    out.println(ok + " # SKIP precondition failed");
+                    continue;
+                }
 
                 try {
                     m.invoke(t);
@@ -98,6 +121,9 @@ public interface Test extends Runnable {
                     }
 
                     out.println("not " + ok);
+
+                    if(cause instanceof PreconditionException)
+                        skipping = true;
                 }
             }
         }
