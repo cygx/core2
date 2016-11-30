@@ -31,6 +31,9 @@ public class World implements Value {
     }
 
     public void register(String name, Value value) {
+        if(registry.containsKey(name))
+            throw new IllegalStateException("already registered '" + name + "'");
+
         registry.put(name, value);
         registry.put(value, name);
     }
