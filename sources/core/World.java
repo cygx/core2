@@ -20,6 +20,10 @@ public class World implements Value {
         return type;
     }
 
+    public Value get(String name) {
+        return (Value)registry.get(name);
+    }
+
     public String getTypeName(Value value) {
         String name = (String)registry.get(value.type());
         return name != null ? name : '[' + value.getClass().getName() + ']';
@@ -28,6 +32,10 @@ public class World implements Value {
     public String getName(Value value) {
         String name = (String)registry.get(value);
         return name != null ? name : "???";
+    }
+
+    public void register(String name, Callable callable) {
+        register(name, (Value)callable);
     }
 
     public void register(String name, Value value) {

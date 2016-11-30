@@ -4,13 +4,13 @@ import java.io.Serializable;
 
 public abstract class F64 implements Value {
     public static final Callable add =
-        (w, a) -> new ImmF64(((F64)a[0]).value() + ((F64)a[1]).value());
+        (w, a) -> new ImmF64(((F64)a[0]).unbox() + ((F64)a[1]).unbox());
 
-    public abstract double value();
+    public abstract double unbox();
 
     @Override
     public String toString() {
-        return Double.toString(value());
+        return Double.toString(unbox());
     }
 
     @Override

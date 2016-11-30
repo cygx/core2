@@ -1,21 +1,17 @@
-NAMES := \
-    $(patsubst core/%.java,%,$(wildcard core/*.java)) \
-    $(patsubst core/%.java,%,$(wildcard core/expressions/*.java)) \
-    $(patsubst core/%.java,%,$(wildcard core/primitives/*.java)) \
-    $(patsubst core/%.java,%,$(wildcard core/statements/*.java)) \
+classes: .classes.dummy
 
-build:
-	javac -d classes core/*.java \
-		core/expressions/*.java \
-		core/primitives/*.java \
-		core/statements/*.java
+tests: .tests.dummy
 
-clean:
-	rm -rf classes/*
+check: run-tests
 
-test:
-	javac -d classes test.java
-	java -cp classes test
+clean:; rm -rf classes/* tests/*.class tests/*.tmp .*.dummy
+realclean: clean
+	rm deps.mk
 
-$(NAMES):
-	javac -d classes core/$@.java
+deps.mk deps:; perl deps.pl >deps.mk
+
+.classes.dummy .tests.dummy: deps.mk
+
+prove prove-v: MAKEFLAGS += --no-print-directory
+
+include deps.mk

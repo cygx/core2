@@ -19,7 +19,7 @@ public class ImmI64 extends I64 {
         this.value = value;
     }
 
-    public long value() {
+    public long unbox() {
         return value;
     }
 

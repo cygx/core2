@@ -2,7 +2,7 @@ package core.primitives;
 import core.*;
 import java.io.Serializable;
 
-public class MutF64 extends F64 {
+public class ImmF64 extends F64 {
     public static final Symbol type = new Symbol();
     static {
         type.stooge = new Serializable() {
@@ -12,13 +12,13 @@ public class MutF64 extends F64 {
         };
     }
 
-    public double value;
+    public final double value;
 
-    public MutF64(double value) {
+    public ImmF64(double value) {
         this.value = value;
     }
 
-    public double value() {
+    public double unbox() {
         return value;
     }
 
