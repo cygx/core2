@@ -12,7 +12,6 @@ public class World implements Value {
         };
     }
 
-    private final Map<String, Symbol> symbols = new HashMap<>();
     private final Map<Object, Object> registry = new HashMap<>();
 
     public World() {}
@@ -39,11 +38,10 @@ public class World implements Value {
     public Symbol createSymbol(String name) {
         Symbol symbol = new Symbol(new Serializable() {
             private Object readResolve() {
-                Symbol s = symbols.get(name);
+                Symbol s = (Symbol)registry.get(name);
                 return s != null ? s : createSymbol(name);
             }
         });
-        symbols.put(name, symbol);
         register(name, symbol);
         return symbol;
     }
