@@ -36,6 +36,10 @@ public interface Expressions {
         return new Constant(new ImmI64(v));
     }
 
+    static Expression variable(long v) {
+        return new Duplicate(new MutI64(v));
+    }
+
     static Expression getLocal(int i) {
         return i < GET_LOCAL.length ? GET_LOCAL[i] : new GetLocal(i);
     }

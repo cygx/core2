@@ -20,7 +20,6 @@ class test {
         world.register("f64.add", F64.add);
         world.register("@i64.imm", MutI64.imm);
         world.register("@i64.preinc", MutI64.preinc);
-        world.register("@i64.zero", MutI64.zero);
         System.out.println(world.gist(world));
         System.out.println();
 
@@ -55,7 +54,7 @@ class test {
         System.out.println();
 
         fn = new Function(1).body(
-            bindLocal(0, call(MutI64.zero)),
+            bindLocal(0, variable(0l)),
             sink(call(say, call(MutI64.preinc, getLocal(0)))),
             when(call(I64.lt, call(MutI64.imm, getLocal(0)), constant(5l)),
                 jump(-1))

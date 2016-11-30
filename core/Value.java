@@ -16,4 +16,9 @@ public interface Value extends Serializable {
         throw new RuntimeException(
             "don't know how to disassemble " + getClass().getSimpleName());
     }
+
+    default Value dup() {
+        throw new RuntimeException(
+            "don't know how to duplicate " + getClass().getSimpleName());
+    }
 }

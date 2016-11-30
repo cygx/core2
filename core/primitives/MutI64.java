@@ -25,10 +25,6 @@ public class MutI64 extends I64 {
         return pre;
     };
 
-    public static final Callable zero = (w, a) -> {
-        return new MutI64(0);
-    };
-
     public static final Callable imm = (w, a) -> {
         MutI64 arg = (MutI64)a[0];
         return new ImmI64(arg.value);
@@ -46,5 +42,10 @@ public class MutI64 extends I64 {
 
     public Symbol type() {
         return type;
+    }
+
+    @Override
+    public Value dup() {
+        return new MutI64(value);
     }
 }
