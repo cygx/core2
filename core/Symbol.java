@@ -6,6 +6,12 @@ import java.util.function.Supplier;
 public final class Symbol implements Value, Comparable<Symbol> {
     private static final AtomicInteger nextId = new AtomicInteger();
 
+    public static class SerializationException extends ObjectStreamException {
+        public SerializationException(String msg) {
+            super(msg);
+        }
+    }
+
     public final int id;
     public Serializable stooge;
 
@@ -43,7 +49,7 @@ public final class Symbol implements Value, Comparable<Symbol> {
 
     private Object writeReplace() throws ObjectStreamException {
         if(stooge == null)
-            throw new ObjectStreamException("no symbol stooge") {};
+            throw new SerializationException("no symbol stooge");
 
         return stooge;
     }

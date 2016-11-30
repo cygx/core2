@@ -13,11 +13,13 @@ public interface Symbols {
                     return VOID;
                 }
             };
+
             TRUE.stooge = new Serializable() {
                 private Object readResolve() {
                     return TRUE;
                 }
             };
+
             FALSE.stooge = new Serializable() {
                 private Object readResolve() {
                     return FALSE;
