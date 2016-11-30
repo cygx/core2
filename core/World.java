@@ -13,7 +13,7 @@ public class World implements Value {
     }
 
     private final Map<String, Symbol> symbols = new HashMap<>();
-    private final Map<Value, String> names = new HashMap<>();
+    private final Map<Object, Object> registry = new HashMap<>();
 
     public World() {}
 
@@ -22,22 +22,18 @@ public class World implements Value {
     }
 
     public String getTypeName(Value value) {
-        String name = names.get(value.type());
+        String name = (String)registry.get(value.type());
         return name != null ? name : '[' + value.getClass().getName() + ']';
     }
 
     public String getName(Value value) {
-        String name = names.get(value);
+        String name = (String)registry.get(value);
         return name != null ? name : "???";
     }
 
-    public void registerName(String name, Value value) {
-        names.put(value, name);
-    }
-
-    public void  registerSymbol(String name, Symbol symbol) {
-        symbols.put(name, symbol);
-        names.put(symbol, name);
+    public void register(String name, Value value) {
+        registry.put(name, value);
+        registry.put(value, name);
     }
 
     public Symbol createSymbol(String name) {
@@ -48,7 +44,7 @@ public class World implements Value {
             }
         });
         symbols.put(name, symbol);
-        names.put(symbol, name);
+        register(name, symbol);
         return symbol;
     }
 }

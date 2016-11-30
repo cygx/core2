@@ -8,19 +8,19 @@ import static core.Symbols.*;
 class test {
     public static void main(String[] args) throws Exception {
         World world = new World();
-        world.registerSymbol("World", World.type);
-        world.registerSymbol("void", VOID);
-        world.registerSymbol("false", FALSE);
-        world.registerSymbol("true", TRUE);
-        world.registerSymbol("f64", F64.type);
-        world.registerSymbol("i64", I64.type);
-        world.registerSymbol("@f64", MutableF64.type);
-        world.registerSymbol("@i64", MutableI64.type);
-        world.registerName("i64.lt", I64.lessThan);
-        world.registerName("f64.add", F64.add);
-        world.registerName("@i64.imm", MutableI64.immutable);
-        world.registerName("@i64.preinc", MutableI64.preinc);
-        world.registerName("@i64.zero", MutableI64.zero);
+        world.register("World", World.type);
+        world.register("void", VOID);
+        world.register("false", FALSE);
+        world.register("true", TRUE);
+        world.register("f64", F64.type);
+        world.register("i64", I64.type);
+        world.register("@f64", MutableF64.type);
+        world.register("@i64", MutableI64.type);
+        world.register("i64.lt", I64.lessThan);
+        world.register("f64.add", F64.add);
+        world.register("@i64.imm", MutableI64.immutable);
+        world.register("@i64.preinc", MutableI64.preinc);
+        world.register("@i64.zero", MutableI64.zero);
         System.out.println(world.gist(world));
         System.out.println();
 
@@ -29,7 +29,7 @@ class test {
             return VOID;
         };
 
-        world.registerName("say", say);
+        world.register("say", say);
 
         Function fn = new Function(0, F64.type).body(
             ret(call(F64.add, getNonlocal(0), constant(3.0)))
