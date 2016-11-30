@@ -1,10 +1,17 @@
 package core.primitives;
 import core.*;
 import static core.Symbols.*;
+import java.io.Serializable;
 
 public class I64 implements Value {
     public static final Symbol type = new Symbol();
-    static { type.resolver(() -> type); }
+    static {
+        type.stooge = new Serializable() {
+            private Object readResolve() {
+                return type;
+            }
+        };
+    }
 
     public static final Callable add = (w, a) ->
         new I64(((I64)a[0]).value + ((I64)a[1]).value);
@@ -29,6 +36,6 @@ public class I64 implements Value {
 
     @Override
     public String asm(World world) {
-        return world.typeName(this) + '<' + toString() + '>';
+        return world.getTypeName(this) + '<' + toString() + '>';
     }
 }

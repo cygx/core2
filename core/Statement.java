@@ -1,10 +1,17 @@
 package core;
+import java.io.Serializable;
 
 @FunctionalInterface
 public interface Statement extends Value {
     Symbol type = new Symbol();
     static class Dummy {
-        static { Statement.type.resolver(() -> Statement.type); }
+        static {
+            type.stooge = new Serializable() {
+                private Object readResolve() {
+                    return type;
+                }
+            };
+        }
     }
 
     default Symbol type() {

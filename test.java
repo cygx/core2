@@ -6,23 +6,21 @@ import static core.Statements.*;
 import static core.Symbols.*;
 
 class test {
-    static Symbol sym;
-
     public static void main(String[] args) throws Exception {
         World world = new World();
-        world.register("World", World.type);
-        world.register("void", VOID);
-        world.register("false", FALSE);
-        world.register("true", TRUE);
-        world.register("f64", F64.type);
-        world.register("i64", I64.type);
-        world.register("i64.lt", I64.lessThan);
-        world.register("f64.add", F64.add);
-        world.register("@f64", MutableF64.type);
-        world.register("@i64", MutableI64.type);
-        world.register("@i64.imm", MutableI64.immutable);
-        world.register("@i64.preinc", MutableI64.preinc);
-        world.register("@i64.zero", MutableI64.zero);
+        world.registerSymbol("World", World.type);
+        world.registerSymbol("void", VOID);
+        world.registerSymbol("false", FALSE);
+        world.registerSymbol("true", TRUE);
+        world.registerSymbol("f64", F64.type);
+        world.registerSymbol("i64", I64.type);
+        world.registerSymbol("@f64", MutableF64.type);
+        world.registerSymbol("@i64", MutableI64.type);
+        world.registerName("i64.lt", I64.lessThan);
+        world.registerName("f64.add", F64.add);
+        world.registerName("@i64.imm", MutableI64.immutable);
+        world.registerName("@i64.preinc", MutableI64.preinc);
+        world.registerName("@i64.zero", MutableI64.zero);
         System.out.println(world.gist(world));
         System.out.println();
 
@@ -31,7 +29,7 @@ class test {
             return VOID;
         };
 
-        world.register("say", say);
+        world.registerName("say", say);
 
         Function fn = new Function(0, F64.type).body(
             ret(call(F64.add, getNonlocal(0), constant(3.0)))
@@ -70,25 +68,17 @@ class test {
         System.out.println(fn.asm(world));
         System.out.println();
 
-        sym = new Symbol();
-        SymbolResolver res = () -> {
-            System.out.println("resolving id=" + sym.id);
-            return sym;
-        };
-        sym.resolver(res);
-        System.out.println(sym.id);
-
         ByteArrayOutputStream bs = new ByteArrayOutputStream();
         ObjectOutputStream os = new ObjectOutputStream(bs);
-        os.writeObject(sym);
+        os.writeObject(I64.type);
         os.close();
 
         ObjectInputStream is = new ObjectInputStream(
             new ByteArrayInputStream(bs.toByteArray()));
 
-        Symbol sym2 = (Symbol)is.readObject();
+        Symbol sym = (Symbol)is.readObject();
         is.close();
 
-        System.out.println(sym == sym2);
+        System.out.println(I64.type == sym);
     }
 }

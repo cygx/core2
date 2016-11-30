@@ -9,7 +9,7 @@ public interface Value extends Serializable {
     }
 
     default String gist(World world) {
-        return world.typeName(this) + '(' + toString() + ')';
+        return world.getTypeName(this) + '(' + toString() + ')';
     }
 
     default String asm(World world) {

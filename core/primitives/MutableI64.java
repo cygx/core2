@@ -1,9 +1,16 @@
 package core.primitives;
 import core.*;
+import java.io.Serializable;
 
 public class MutableI64 implements Value {
     public static final Symbol type = new Symbol();
-    static { type.resolver(() -> type); }
+    static {
+        type.stooge = new Serializable() {
+            private Object readResolve() {
+                return type;
+            }
+        };
+    }
 
     public static final Callable preinc = (w, a) -> {
         MutableI64 arg = (MutableI64)a[0];

@@ -1,8 +1,15 @@
 package core;
+import java.io.Serializable;
 
 public class Function implements Value {
     public static final Symbol type = new Symbol();
-    static { type.resolver(() -> type); }
+    static {
+        type.stooge = new Serializable() {
+            private Object readResolve() {
+                return type;
+            }
+        };
+    }
 
     private final Symbol[] NO_PARAMETERS = new Symbol[0];
 
@@ -60,11 +67,11 @@ public class Function implements Value {
     public String asm(World world) {
         StringBuilder b = new StringBuilder();
         b.append(":function ");
-        b.append(world.typeName(returnType));
+        b.append(world.getTypeName(returnType));
 
         for(Symbol p : parameters) {
             b.append(" <");
-            b.append(world.typeName(p));
+            b.append(world.getTypeName(p));
             b.append('>');
         }
 

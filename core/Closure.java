@@ -1,8 +1,15 @@
 package core;
+import java.io.Serializable;
 
 public class Closure implements Callable {
     public static final Symbol type = new Symbol();
-    static { type.resolver(() -> type); }
+    static {
+        type.stooge = new Serializable() {
+            private Object readResolve() {
+                return type;
+            }
+        };
+    }
 
     private final Function fn;
     private final Value[] nonlocals;

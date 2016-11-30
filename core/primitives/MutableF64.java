@@ -1,9 +1,16 @@
 package core.primitives;
 import core.*;
+import java.io.Serializable;
 
 public class MutableF64 implements Value {
     public static final Symbol type = new Symbol();
-    static { type.resolver(() -> type); }
+    static {
+        type.stooge = new Serializable() {
+            private Object readResolve() {
+                return type;
+            }
+        };
+    }
 
     public double value;
 

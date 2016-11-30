@@ -20,7 +20,7 @@ public class Call implements Expression {
 
     @Override
     public String asm(World world) {
-        StringBuilder b = new StringBuilder(world.name(callee));
+        StringBuilder b = new StringBuilder(world.getName(callee));
         b.append('(');
         if(args.length > 0) {
             b.append(args[0].asm(world));

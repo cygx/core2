@@ -1,8 +1,15 @@
 package core;
+import java.io.Serializable;
 
 public class Frame implements Value, Runnable {
     public static final Symbol type = new Symbol();
-    static { type.resolver(() -> type); }
+    static {
+        type.stooge = new Serializable() {
+            private Object readResolve() {
+                return type;
+            }
+        };
+    }
 
     public static final int RETURN_OFFSET = 1 << 30;
 
