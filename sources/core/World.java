@@ -24,6 +24,10 @@ public class World implements Value {
         return (Value)registry.get(name);
     }
 
+    public Callable getCallable(String name) {
+        return (Callable)registry.get(name);
+    }
+
     public String getTypeName(Value value) {
         String name = (String)registry.get(value.type());
         return name != null ? name : '[' + value.getClass().getName() + ']';

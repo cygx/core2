@@ -81,9 +81,14 @@ public interface Test extends Runnable {
                 catch(InvocationTargetException e) {
                     Throwable cause = e.getCause();
                     String msg = cause.getMessage();
-                    if(msg != null) msg = msg.replace("\n", "\n  ");
-                    out.printf(" %s: %s\n",
-                        cause.getClass().getSimpleName(), msg);
+                    if(msg == null) msg = "?";
+                    else msg = msg.replace("\n", "\n  ");
+                    StackTraceElement[] trace = cause.getStackTrace();
+                    StackTraceElement top = trace[
+                        trace[0].getClassName().equals("Test") ? 1 : 0];
+                    out.printf(" %s: %s (%s:%d)\n",
+                        cause.getClass().getSimpleName(), msg,
+                        top.getFileName(), top.getLineNumber());
 
                     if(printStackTrace) {
                         for(StackTraceElement s : cause.getStackTrace()) {

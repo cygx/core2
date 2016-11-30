@@ -18,6 +18,9 @@ public abstract class I64 implements Value {
     public static final Callable mod = (w, a) ->
         new ImmI64(((I64)a[0]).unbox() % ((I64)a[1]).unbox());
 
+    public static final Callable eq = (w, a) ->
+        ((I64)a[0]).unbox() == ((I64)a[1]).unbox() ? TRUE : FALSE;
+
     public static final Callable lt = (w, a) ->
         ((I64)a[0]).unbox() < ((I64)a[1]).unbox() ? TRUE : FALSE;
 
@@ -31,6 +34,10 @@ public abstract class I64 implements Value {
         ((I64)a[0]).unbox() >= ((I64)a[1]).unbox() ? TRUE : FALSE;
 
     public abstract long unbox();
+
+    public static long unbox(Object obj) {
+        return ((I64)obj).unbox();
+    }
 
     @Override
     public String toString() {
